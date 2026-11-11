@@ -5,96 +5,145 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sorteo Alfil Juvenil × Black Sunrise</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cormorant+SC:wght@500;600&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  :root{--gold:#C9A24D;--gold2:#e6c878;--bg:#0b0b0b;--card:#141414;--line:#2a2418;--txt:#f3efe6;--mut:#9a927f;--ok:#7fb069;--no:#c0614d}
+  :root{
+    --cream:#f3ebdf; --paper:#f7f1e7; --paper2:#ede3d3;
+    --mauve:#8f6e6c; --mauve2:#a88a87; --rose:#c9aeaa;
+    --wood:#1d120c; --wood2:#2e1d13; --brass:#b8924a; --brass2:#d9b56e;
+    --ink:#3a2620; --mut:#8a7468; --burgundy:#6e2329; --ok:#4f6b3a; --no:#8e2f2f;
+  }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--txt);font-family:Outfit,system-ui,sans-serif;min-height:100vh}
-  .wrap{max-width:820px;margin:0 auto;padding:28px 18px 60px}
-  header{text-align:center;margin-bottom:22px}
-  .aj{font-family:Cinzel,serif;color:var(--gold);letter-spacing:.35em;font-size:13px}
-  h1{font-family:Cinzel,serif;font-weight:700;font-size:clamp(26px,5vw,40px);margin:8px 0 4px;color:var(--txt)}
-  h1 span{color:var(--gold)}
-  .sub{color:var(--mut);font-size:15px}
-  .frame{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:20px;margin:16px 0;position:relative}
-  .frame::before{content:"";position:absolute;inset:5px;border:1px solid rgba(201,162,77,.18);border-radius:10px;pointer-events:none}
-  h2{font-family:Cinzel,serif;font-size:16px;color:var(--gold);margin:0 0 10px;letter-spacing:.06em}
-  p.help{color:var(--mut);font-size:14px;margin:6px 0 12px;line-height:1.5}
-  ol.help{color:var(--mut);font-size:14px;line-height:1.6;padding-left:20px;margin:6px 0 12px}
-  code{background:#1e1b14;color:var(--gold2);padding:1px 6px;border-radius:4px;font-size:13px}
-  textarea{width:100%;min-height:90px;background:#0e0e0e;color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:10px;font-family:ui-monospace,monospace;font-size:12px;resize:vertical}
-  button{font-family:Outfit,sans-serif;cursor:pointer;border-radius:999px;border:1px solid var(--gold);background:transparent;color:var(--gold);padding:9px 18px;font-size:14px;font-weight:600;transition:.15s}
-  button:hover{background:rgba(201,162,77,.12)}
-  button:disabled{opacity:.35;cursor:not-allowed}
-  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}
-  .stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-  .stat{flex:1;min-width:120px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;text-align:center}
-  .stat b{display:block;font-size:24px;color:var(--gold2);font-weight:600}
-  .stat small{color:var(--mut);font-size:12px}
-  .msg{font-size:14px;margin-top:8px;min-height:18px}
+  body{margin:0;color:var(--ink);font-family:Outfit,system-ui,sans-serif;min-height:100vh;
+    background:
+      radial-gradient(ellipse 60% 45% at 15% 0%, rgba(255,196,110,.22), transparent 70%),
+      radial-gradient(ellipse 80% 60% at 50% 120%, rgba(0,0,0,.6), transparent 70%),
+      repeating-linear-gradient(92deg, rgba(255,255,255,.015) 0 3px, transparent 3px 11px),
+      linear-gradient(180deg, var(--wood2), var(--wood));}
+  .mut{color:var(--mut)}
+  .wrap{max-width:820px;margin:0 auto;padding:30px 18px 60px}
+
+  /* Cabecera tipo cartel de hotel */
+  header{text-align:center;margin-bottom:24px;color:var(--cream)}
+  .aj{font-family:'Cormorant SC',serif;letter-spacing:.4em;font-size:14px;color:var(--brass2)}
+  .script{font-family:'Pinyon Script',cursive;font-weight:400}
+  header h1{font-size:clamp(52px,9vw,84px);margin:4px 0 0;line-height:1;color:var(--paper)}
+  .sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px;color:var(--rose)}
+
+  /* Tarjetas de papel */
+  .card{background:linear-gradient(180deg,var(--paper),var(--paper2));border-radius:3px;padding:26px 24px 22px;margin:22px 0;position:relative;
+    box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 14px 30px rgba(0,0,0,.45),0 2px 4px rgba(0,0,0,.3)}
+  .card::after{content:"";position:absolute;inset:8px;border:1px solid rgba(143,110,108,.35);pointer-events:none}
+  .card h2{font-family:'Cormorant SC',serif;font-weight:600;font-size:21px;letter-spacing:.08em;margin:0 0 6px;color:var(--burgundy)}
+  .card h2 .n{font-family:'Pinyon Script',cursive;font-size:30px;color:var(--mauve);margin-right:8px;letter-spacing:0}
+  p.help,ol.help{color:var(--mut);font-size:15px;line-height:1.6;margin:6px 0 12px}
+  ol.help{padding-left:20px}
+  code{background:#e6d9c5;color:var(--burgundy);padding:1px 6px;border-radius:3px;font-size:13px}
+  textarea{width:100%;min-height:90px;background:#fffaf2;color:var(--ink);border:1px solid #d6c6b1;border-radius:3px;padding:10px;font-family:ui-monospace,monospace;font-size:12px;resize:vertical}
+  button{font-family:'Cormorant SC',serif;font-weight:600;letter-spacing:.06em;cursor:pointer;border-radius:2px;border:1px solid var(--mauve);background:transparent;color:var(--burgundy);padding:8px 18px;font-size:16px;transition:.15s}
+  button:hover{background:rgba(143,110,108,.12)}
+  button:disabled{opacity:.4;cursor:not-allowed}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px;position:relative;z-index:1}
+  .stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  .stat{flex:1;min-width:120px;border:1px dashed #cdb9a2;padding:10px 12px;text-align:center}
+  .stat b{display:block;font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;color:var(--burgundy);line-height:1.1}
+  .stat small{color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+  .msg{font-size:14px;min-height:18px}
   .msg.err{color:var(--no)} .msg.ok{color:var(--ok)}
-  .stage{text-align:center;padding:30px 10px 10px}
-  .big{font-family:Cinzel,serif;font-size:20px;letter-spacing:.08em;padding:18px 44px;background:linear-gradient(135deg,#b88f3c,var(--gold2));color:#111;border:none;box-shadow:0 0 30px rgba(201,162,77,.25)}
-  .big:hover{filter:brightness(1.08);background:linear-gradient(135deg,#b88f3c,var(--gold2))}
-  .reel{font-family:Outfit,sans-serif;font-weight:600;font-size:clamp(28px,7vw,52px);color:var(--gold2);min-height:70px;margin:26px 0 6px;word-break:break-all}
-  .reel.spin{opacity:.75;filter:blur(.4px)}
-  .reel.win{animation:pop .5s ease;text-shadow:0 0 24px rgba(230,200,120,.45)}
-  @keyframes pop{0%{transform:scale(.8);opacity:0}70%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
-  .ctext{color:var(--txt);font-size:16px;margin:4px 0 2px;word-break:break-word}
-  .cmeta{color:var(--mut);font-size:13px}
-  .prize{display:inline-block;margin-top:6px;color:var(--gold);border:1px solid var(--line);border-radius:999px;padding:3px 12px;font-size:13px}
-  .ok{border-color:var(--ok);color:var(--ok)} .ok:hover{background:rgba(127,176,105,.12)}
-  .no{border-color:var(--no);color:var(--no)} .no:hover{background:rgba(192,97,77,.12)}
-  ul.list{list-style:none;padding:0;margin:0}
-  ul.list li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}
+  .brass{background:linear-gradient(180deg,var(--brass2),var(--brass));color:var(--wood);border:none;box-shadow:0 3px 0 #7c5f2a,0 6px 14px rgba(0,0,0,.3)}
+  .brass:hover{filter:brightness(1.07);background:linear-gradient(180deg,var(--brass2),var(--brass))}
+  .brass:active{transform:translateY(2px);box-shadow:0 1px 0 #7c5f2a}
+  ul.list{list-style:none;padding:0;margin:0;position:relative;z-index:1}
+  ul.list li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dotted #cdb9a2;font-size:16px}
   ul.list li:last-child{border-bottom:none}
-  ul.list .x{padding:3px 10px;font-size:12px;border-color:var(--mut);color:var(--mut)}
-  .medal{color:var(--gold2);font-family:Cinzel,serif;margin-right:8px}
-  .empty{color:var(--mut);font-size:14px}
-  details summary{cursor:pointer;color:var(--gold);font-family:Cinzel,serif;font-size:15px}
-  .hidden{display:none}
+  ul.list .x{padding:2px 10px;font-size:13px;border-color:#cdb9a2;color:var(--mut)}
+  .medal{font-family:'Pinyon Script',cursive;font-size:24px;color:var(--mauve);margin-right:8px}
+  .empty{color:var(--mut);font-size:15px;font-style:italic}
+  details summary{cursor:pointer;list-style:none}
+  details summary::-webkit-details-marker{display:none}
+  details summary h2{display:inline}
+  details summary::after{content:" ▾";color:var(--mauve)}
+  .hidden{display:none !important}
   .confirm{margin-top:10px;font-size:14px;color:var(--mut)}
-  #proj{position:fixed;inset:0;background:radial-gradient(ellipse at center,#17130b 0%,#000 75%);display:flex;flex-direction:column;overflow:auto}
-  #proj.hidden{display:none}
-  .ptop{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;opacity:.35;transition:.2s}
+  .foot{text-align:center;color:var(--rose);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;opacity:.85}
+  .foot code{background:rgba(255,255,255,.08);color:var(--brass2)}
+
+  /* ===== Pantalla de proyección: toldo de rayas + tarjeta con pinza ===== */
+  #proj{position:fixed;inset:0;overflow:auto;display:flex;flex-direction:column;
+    background:repeating-linear-gradient(90deg,var(--mauve) 0 6vw,var(--cream) 6vw 12vw);}
+  #proj::before{content:"";position:fixed;inset:0;pointer-events:none;
+    background:radial-gradient(ellipse at 50% 40%,transparent 35%,rgba(40,20,15,.45) 100%)}
+  .ptop{position:relative;z-index:3;display:flex;justify-content:space-between;align-items:center;padding:10px 16px;opacity:.25;transition:.2s}
   .ptop:hover{opacity:1}
-  .back{color:var(--mut);text-decoration:none;font-size:14px}
-  .pframe{flex:1;margin:0 3vw 3vh;border:2px solid var(--gold);border-radius:18px;outline:1px solid rgba(201,162,77,.35);outline-offset:-12px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4vh 4vw}
-  .ptitle{font-family:Cinzel,serif;font-weight:700;font-size:clamp(34px,6vw,84px);margin:1vh 0}
-  .ptitle span{color:var(--gold)}
-  .pprize{font-family:Cinzel,serif;color:var(--gold);border:1px solid var(--gold);border-radius:999px;padding:6px 22px;font-size:clamp(16px,2vw,28px);margin-bottom:2vh}
-  .preel{font-size:clamp(40px,8vw,120px);min-height:1.3em;margin:2vh 0 1vh}
-  .pcomment{font-size:clamp(24px,3.6vw,56px);font-weight:300;line-height:1.25;max-width:85vw;word-break:break-word;margin:1vh auto;animation:pop .6s ease}
-  .pmeta{font-size:clamp(14px,1.4vw,20px);margin-bottom:2vh}
-  .pbtns{margin-top:2vh;min-height:80px}
-  .pbtns .big{font-size:clamp(18px,2vw,28px);padding:2vh 4vw}
-  .pbtn{font-size:clamp(16px,1.6vw,22px);padding:12px 28px}
-  .pwin{display:flex;gap:2vw;flex-wrap:wrap;justify-content:center;margin-top:4vh}
-  .pwin .w{border:1px solid var(--line);border-radius:12px;padding:10px 22px;background:rgba(0,0,0,.4)}
-  .pwin .w b{display:block;font-family:Outfit,sans-serif;font-weight:600;color:var(--gold2);font-size:clamp(18px,2vw,28px)}
-  .pwin .w small{color:var(--mut);font-size:clamp(12px,1.1vw,16px)}
+  .ptop a{color:var(--wood);text-decoration:none;font-family:'Cormorant SC',serif;font-size:16px;background:var(--paper);padding:4px 12px}
+  .ptop button{background:var(--paper)}
+  .pstage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:6vh 4vw 2vh;position:relative;z-index:1}
+  .note{position:relative;width:min(1100px,88vw);background:linear-gradient(180deg,var(--paper),var(--paper2));
+    padding:5vh 5vw 3.5vh;text-align:center;transform:rotate(-.6deg);
+    box-shadow:0 30px 60px rgba(40,15,10,.45),0 4px 10px rgba(0,0,0,.25)}
+  .note::after{content:"";position:absolute;inset:14px;border:1px solid rgba(143,110,108,.4);pointer-events:none}
+  /* pinza metálica */
+  .clip{position:absolute;top:-34px;left:50%;transform:translateX(-50%);width:120px;height:62px;z-index:2}
+  .clip .body{position:absolute;bottom:0;left:0;right:0;height:34px;border-radius:4px 4px 2px 2px;
+    background:linear-gradient(180deg,#d9d9d6,#9c9c98 55%,#c9c9c5);box-shadow:0 4px 8px rgba(0,0,0,.35)}
+  .clip .wire{position:absolute;top:0;left:22px;right:22px;height:44px;border:5px solid #b8b8b3;border-bottom:none;border-radius:22px 22px 0 0}
+  .paj{font-family:'Cormorant SC',serif;letter-spacing:.35em;color:var(--mauve);font-size:clamp(12px,1.2vw,18px)}
+  .ptitle{font-family:'Pinyon Script',cursive;font-size:clamp(56px,min(10vw,14vh),150px);line-height:.9;color:var(--burgundy);margin:.5vh 0 1.5vh}
+  .pprize{display:inline-block;font-family:'Cormorant SC',serif;font-weight:600;letter-spacing:.12em;color:var(--ink);
+    font-size:clamp(16px,2vw,30px);border-top:1px solid var(--mauve);border-bottom:1px solid var(--mauve);padding:.3em 1.2em}
+  .reel{font-family:'Cormorant Garamond',serif;font-weight:600;color:var(--ink);min-height:1.2em;word-break:break-all;
+    font-size:clamp(36px,min(7.5vw,11vh),112px);margin:3vh 0 .5vh;line-height:1.1}
+  .reel.spin{color:var(--mauve2);filter:blur(.5px)}
+  .reel.win{color:var(--burgundy);animation:pop .55s ease}
+  @keyframes pop{0%{transform:scale(.85);opacity:0}70%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
+  .pcomment{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(22px,min(3.6vw,5.5vh),56px);line-height:1.25;color:var(--ink);
+    max-width:80vw;margin:1vh auto;word-break:break-word;animation:pop .6s ease}
+  .pmeta{font-family:'Cormorant SC',serif;color:var(--mut);font-size:clamp(14px,1.4vw,22px);letter-spacing:.1em;margin-bottom:1vh}
+  .pbtns{margin-top:2.5vh;min-height:60px;position:relative;z-index:1}
+  /* timbre de recepción */
+  .bell{font-size:clamp(20px,2.2vw,32px);padding:.55em 1.6em;border-radius:2px}
+  .bell::before{content:"🛎️";margin-right:.5em}
+  .pbtn{font-size:clamp(17px,1.7vw,24px);padding:.5em 1.4em;background:var(--paper)}
+  .ok{border-color:var(--ok);color:var(--ok)} .ok:hover{background:rgba(79,107,58,.1)}
+  .no{border-color:var(--no);color:var(--no)} .no:hover{background:rgba(142,47,47,.08)}
+  /* ganadores como etiquetas de llave */
+  .pwin{display:flex;gap:2.5vw;flex-wrap:wrap;justify-content:center;margin-top:-1vh;position:relative;z-index:1}
+  .keytag{position:relative;background:linear-gradient(180deg,#7a2a30,var(--burgundy));color:var(--paper);
+    padding:2em 1.4em .8em;min-width:190px;text-align:center;border-radius:6px 6px 40px 40px;
+    box-shadow:0 10px 22px rgba(40,15,10,.4);transform:rotate(var(--r,-2deg));animation:pop .6s ease}
+  .keytag:nth-child(2){--r:2deg} .keytag:nth-child(3){--r:-1deg}
+  .keytag .hole{position:absolute;top:.7em;left:50%;transform:translateX(-50%);width:16px;height:16px;border-radius:50%;
+    background:var(--cream);box-shadow:inset 0 2px 3px rgba(0,0,0,.4),0 0 0 3px var(--brass)}
+  .keytag em{display:block;font-family:'Pinyon Script',cursive;font-style:normal;font-size:clamp(20px,1.8vw,28px);color:var(--brass2)}
+  .keytag b{display:block;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(20px,2vw,32px)}
+  .keytag small{font-family:'Cormorant SC',serif;letter-spacing:.08em;font-size:clamp(12px,1.1vw,17px);color:var(--rose)}
+  .pfoot{text-align:center;padding:0 0 2vh;position:relative;z-index:1}
+  .pfoot span{background:var(--paper);font-family:'Cormorant SC',serif;letter-spacing:.2em;color:var(--mauve);font-size:clamp(11px,1vw,15px);padding:4px 14px}
 </style>
 </head>
 <body>
 <div id="proj" class="hidden">
   <div class="ptop">
-    <a href="#" class="back">← Ajustes</a>
-    <button class="x" id="fs">Pantalla completa</button>
+    <a href="#">← Recepción</a>
+    <button id="fs">Pantalla completa</button>
   </div>
-  <div class="pframe">
-    <div class="aj">ALFIL · JUVENIL &nbsp;×&nbsp; BLACK SUNRISE</div>
-    <div class="ptitle">Gran <span>Sorteo</span></div>
-    <div class="pprize" id="pPrize"></div>
-    <div class="reel preel" id="reel">—</div>
-    <div id="result" class="hidden">
-      <div class="pcomment" id="rText"></div>
-      <div class="cmeta pmeta" id="rMeta"></div>
-    </div>
-    <div class="pbtns">
-      <button class="big" id="draw" disabled>Sacar comentario</button>
-      <div id="decide" class="row hidden" style="justify-content:center">
-        <button class="ok pbtn" id="accept">✓ ¡Ganador!</button>
-        <button class="no pbtn" id="reject">✗ No cumple · otro</button>
+  <div class="pstage">
+    <div class="note">
+      <div class="clip"><div class="wire"></div><div class="body"></div></div>
+      <div class="paj">Alfil Juvenil × Black Sunrise</div>
+      <div class="ptitle">Sorteo</div>
+      <div class="pprize" id="pPrize"></div>
+      <div class="reel" id="reel">—</div>
+      <div id="result" class="hidden">
+        <div class="pcomment" id="rText"></div>
+        <div class="pmeta" id="rMeta"></div>
+      </div>
+      <div class="pbtns">
+        <button class="brass bell" id="draw" disabled>Sacar comentario</button>
+        <div id="decide" class="row hidden" style="justify-content:center">
+          <button class="ok pbtn" id="accept">✓ ¡Ganador!</button>
+          <button class="no pbtn" id="reject">✗ No cumple · otro</button>
+        </div>
       </div>
     </div>
     <div class="pwin" id="pWinners"></div>
@@ -103,14 +152,14 @@
 
 <div class="wrap" id="setup">
   <header>
-    <div class="aj">ALFIL · JUVENIL</div>
-    <h1>Gran <span>Sorteo</span></h1>
-    <div class="sub">× Black Sunrise · 1 tatuaje de 100 € y 2 de 50 €</div>
+    <div class="aj">Alfil Juvenil · Edición XXII</div>
+    <h1 class="script">Sorteo</h1>
+    <div class="sub">Queridos huéspedes · 1 vale de 100 € y 2 vales de 50 € de Black Sunrise</div>
   </header>
 
-  <div class="frame" id="step1">
+  <div class="card">
     <details id="det1" open>
-      <summary>1 · Sacar los comentarios de Instagram</summary>
+      <summary><h2><span class="n">i.</span>Sacar los comentarios de Instagram</h2></summary>
       <ol class="help">
         <li>En el <b>ordenador</b>, abre la publicación en Instagram con tu sesión iniciada.</li>
         <li>Abre la consola: <code>Cmd + Opción + J</code> (Mac, Chrome) o <code>F12</code> → pestaña <b>Console</b>.</li>
@@ -118,51 +167,51 @@
         <li>Pega el script, dale a Enter y espera a que diga <b>✅ Listo</b>. Los comentarios se copian solos.</li>
       </ol>
       <div class="row"><button id="copyScript">Copiar script</button><span class="msg" id="copyMsg"></span></div>
-      <textarea id="scriptBox" readonly style="margin-top:10px;min-height:70px"></textarea>
+      <textarea id="scriptBox" readonly style="margin-top:10px;min-height:70px;position:relative;z-index:1"></textarea>
     </details>
   </div>
 
-  <div class="frame">
-    <h2>2 · Pegar los comentarios</h2>
-    <p class="help">Pega aquí lo que ha copiado el script. Si lo vuelves a sacar otro día, pega lo nuevo y se sustituye: los ganadores y descartados se mantienen.</p>
-    <textarea id="data" placeholder='[{"u":"usuario","t":"@amigo","ts":1731300000}, ...]'></textarea>
+  <div class="card">
+    <h2><span class="n">ii.</span>Registrar a los huéspedes</h2>
+    <p class="help">Pega aquí lo que ha copiado el script. Si lo vuelves a sacar otro día, pega lo nuevo y se sustituye; los ganadores y descartados se mantienen.</p>
+    <textarea id="data" placeholder='[{"u":"usuario","t":"@amigo","ts":1731300000}, ...]' style="position:relative;z-index:1"></textarea>
     <div class="row"><button id="load">Cargar comentarios</button><span class="msg" id="loadMsg"></span></div>
     <div class="stats">
       <div class="stat"><b id="sTotal">0</b><small>comentarios</small></div>
       <div class="stat"><b id="sValid">0</b><small>papeletas válidas</small></div>
       <div class="stat"><b id="sPeople">0</b><small>participantes</small></div>
-      <div class="stat"><b id="sPool">0</b><small>en el bombo ahora</small></div>
+      <div class="stat"><b id="sPool">0</b><small>en el bombo</small></div>
     </div>
   </div>
 
-  <div class="frame">
-    <h2>3 · ¡A sortear!</h2>
+  <div class="card">
+    <h2><span class="n">iii.</span>¡A sortear!</h2>
     <p class="help">Abre la pantalla de proyección, ponla en pantalla completa y conecta el proyector. El sorteo se hace desde ahí.</p>
-    <div class="row"><a href="#proyectar"><button class="big" style="font-size:16px;padding:14px 32px">Abrir pantalla de proyección</button></a></div>
+    <div class="row"><a href="#proyectar"><button class="brass" style="font-size:18px;padding:12px 30px">Abrir pantalla de proyección</button></a></div>
   </div>
 
-  <div class="frame">
-    <h2>🏆 Ganadores</h2>
+  <div class="card">
+    <h2><span class="n">iv.</span>Ganadores</h2>
     <ul class="list" id="winners"></ul>
   </div>
 
-  <div class="frame">
+  <div class="card">
     <details>
-      <summary>Descartados y ajustes</summary>
+      <summary><h2>Descartados y ajustes</h2></summary>
       <p class="help">Los descartados no vuelven a salir. Si te equivocas, quítalo de aquí.</p>
       <ul class="list" id="rejected"></ul>
       <p class="help" style="margin-top:14px">Cuentas excluidas (separadas por comas):</p>
-      <textarea id="excl" style="min-height:40px">alfiljuvenil, blacksunrisestudio</textarea>
+      <textarea id="excl" style="min-height:40px;position:relative;z-index:1">alfiljuvenil, blacksunrisestudio</textarea>
       <div class="row">
         <button id="saveExcl">Guardar exclusiones</button>
         <button class="no" id="resetAll">Empezar de cero</button>
       </div>
-      <div class="confirm hidden" id="resetConfirm">¿Seguro? Se borran ganadores, descartados y comentarios.
+      <div class="confirm hidden" id="resetConfirm" style="position:relative;z-index:1">¿Seguro? Se borran ganadores, descartados y comentarios.
         <button class="no" id="resetYes">Sí, borrar</button> <button id="resetNo">No</button></div>
     </details>
   </div>
 
-  <p class="help" style="text-align:center">Cada comentario que mencione al menos a una persona es una papeleta. Cada persona solo puede ganar un premio. Elección aleatoria con <code>crypto.getRandomValues</code>.</p>
+  <p class="foot">Cada comentario que mencione al menos a una persona es una papeleta. Cada persona solo puede ganar un premio. Elección aleatoria con <code>crypto.getRandomValues</code>.</p>
 </div>
 
 <script>
@@ -236,19 +285,19 @@ function render(){
   $('sPool').textContent = p.length;
   const done = winners.length >= PRIZES.length;
   $('draw').disabled = spinning || !p.length || done || !!current;
-  $('draw').textContent = done ? 'Premios repartidos 🎉' : 'Sacar comentario';
+  $('draw').textContent = done ? 'Premios entregados' : 'Sacar comentario';
   $('winners').innerHTML = winners.length ? winners.map((w, i) =>
-    `<li><span><span class="medal">${i+1}º</span>@${esc(w.u)} · <span style="color:var(--mut)">${esc(w.prize)}</span></span><button class="x" data-w="${i}">quitar</button></li>`).join('')
+    `<li><span><span class="medal">${i+1}º</span>@${esc(w.u)} · <span class="mut">${esc(w.prize)}</span></span><button class="x" data-w="${i}">quitar</button></li>`).join('')
     : '<li class="empty">Todavía no hay ganadores.</li>';
   $('rejected').innerHTML = rejected.length ? rejected.map((u, i) =>
     `<li><span>@${esc(u)}</span><button class="x" data-r="${i}">quitar</button></li>`).join('')
     : '<li class="empty">Nadie descartado.</li>';
   $('excl').value = excluded.join(', ');
-  $('pPrize').textContent = done ? '¡Enhorabuena a los ganadores!' : (winners.length + 1) + 'º premio · ' + PRIZES[winners.length];
-  $('pWinners').innerHTML = winners.map((w, i) => `<div class="w"><b>@${esc(w.u)}</b><small>${i+1}º · ${esc(w.prize)}</small></div>`).join('');
+  $('pPrize').textContent = done ? '¡Enhorabuena, queridos huéspedes!' : (winners.length + 1) + 'º premio · ' + PRIZES[winners.length];
+  $('pWinners').innerHTML = winners.map((w, i) => `<div class="keytag"><span class="hole"></span><em>Nº ${i+1}</em><b>@${esc(w.u)}</b><small>${esc(w.prize)}</small></div>`).join('');
   $('draw').classList.toggle('hidden', !!current);
   $('decide').classList.toggle('hidden', !current);
-  if (!comments.length && !current) $('reel').textContent = 'Carga los comentarios en Ajustes';
+  if (!comments.length && !current) $('reel').textContent = 'Carga los comentarios en Recepción';
 }
 
 function route(){
@@ -292,7 +341,7 @@ $('load').onclick = () => {
 $('draw').onclick = () => {
   const p = pool(); if (!p.length) return;
   spinning = true; current = null; $('result').classList.add('hidden');
-  const reel = $('reel'); reel.className = 'reel spin';
+  const reel = $('reel'); reel.classList.remove('win'); reel.classList.add('spin');
   const pick = p[rand(p.length)];
   let delay = 40, t = 0;
   const tick = () => {
@@ -300,7 +349,7 @@ $('draw').onclick = () => {
     t += delay; delay *= 1.08;
     if (t < 3200) setTimeout(tick, delay);
     else {
-      reel.textContent = '@' + pick.u; reel.className = 'reel win';
+      reel.textContent = '@' + pick.u; reel.classList.remove('spin'); void reel.offsetWidth; reel.classList.add('win');
       current = pick; spinning = false;
       $('rText').textContent = '“' + pick.t + '”';
       $('rMeta').textContent = fmt(pick.ts);
@@ -319,7 +368,7 @@ $('accept').onclick = () => {
 $('reject').onclick = () => {
   if (!current) return;
   rejected.push(current.u); store.set('rejected', rejected);
-  current = null; $('result').classList.add('hidden'); $('reel').textContent = '—'; $('reel').className = 'reel';
+  current = null; $('result').classList.add('hidden'); $('reel').textContent = '—'; $('reel').classList.remove('win','spin');
   render(); $('draw').click();
 };
 
