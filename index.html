@@ -231,10 +231,10 @@ const SCRIPT = `(async () => {
   const base = '/api/v1/media/' + id + '/comments/?can_support_threading=true&permalink_enabled=false';
   try {
     // 1) Comentarios principales, en las dos direcciones
-    for (const dir of ['min_id', 'max_id']) {
+    for (const [sort, dir] of [['', 'min_id'], ['', 'max_id'], ['&sort_order=newest', 'max_id'], ['&sort_order=popular', 'max_id']]) {
       let cur = null, n = 0;
       do {
-        const j = await get(base + (cur ? '&' + dir + '=' + encodeURIComponent(cur) : ''));
+        const j = await get(base + sort + (cur ? '&' + dir + '=' + encodeURIComponent(cur) : ''));
         if (total === null && j.comment_count) total = j.comment_count;
         for (const c of (j.comments || [])) {
           add(c, false); parents.set(c.pk, c);
