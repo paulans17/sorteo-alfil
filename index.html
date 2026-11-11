@@ -179,6 +179,7 @@
     <div class="stats">
       <div class="stat"><b id="sTotal">0</b><small>comentarios</small></div>
       <div class="stat"><b id="sReplies">0</b><small>respuestas (no cuentan)</small></div>
+      <div class="stat"><b id="sDup">0</b><small>repetidos (no cuentan)</small></div>
       <div class="stat"><b id="sValid">0</b><small>papeletas válidas</small></div>
       <div class="stat"><b id="sPeople">0</b><small>participantes</small></div>
       <div class="stat"><b id="sPool">0</b><small>en el bombo</small></div>
@@ -212,7 +213,7 @@
     </details>
   </div>
 
-  <p class="foot">Cada comentario que mencione al menos a una persona es una papeleta (las respuestas a otros comentarios no cuentan). Cada persona solo puede ganar un premio. Elección aleatoria con <code>crypto.getRandomValues</code>.</p>
+  <p class="foot">Cada comentario que mencione al menos a una persona es una papeleta (las respuestas y los comentarios repetidos exactamente iguales no cuentan). Cada persona solo puede ganar un premio. Elección aleatoria con <code>crypto.getRandomValues</code>.</p>
 </div>
 
 <script>
@@ -294,16 +295,28 @@ function isValid(c){
   const ments = (String(c.t).match(/@([A-Za-z0-9._]+)/g) || []).map(norm);
   return ments.some(m => m !== u && !excluded.includes(m));
 }
+// Mismo usuario + mismo texto = una sola papeleta
+function ballots(){
+  const seen = new Set(), res = [];
+  for (const c of comments) {
+    if (!isValid(c)) continue;
+    const k = norm(c.u) + '|' + String(c.t).toLowerCase().replace(/\s+/g, ' ').trim();
+    if (seen.has(k)) continue;
+    seen.add(k); res.push(c);
+  }
+  return res;
+}
 function pool(){
   const out = new Set([...winners.map(w => norm(w.u)), ...rejected.map(norm)]);
-  return comments.filter(c => isValid(c) && !out.has(norm(c.u)));
+  return ballots().filter(c => !out.has(norm(c.u)));
 }
 function rand(n){ const a = new Uint32Array(1); const lim = Math.floor(0x100000000 / n) * n; let x; do { crypto.getRandomValues(a); x = a[0]; } while (x >= lim); return x % n; }
 function fmt(ts){ if (!ts) return ''; const d = new Date(ts * 1000); return d.toLocaleString('es-ES', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' }); }
 function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
 function render(){
-  const valid = comments.filter(isValid);
+  const valid = ballots();
+  $('sDup').textContent = comments.filter(isValid).length - valid.length;
   $('sTotal').textContent = comments.filter(c => !c.r).length;
   $('sReplies').textContent = comments.filter(c => c.r).length;
   $('sValid').textContent = valid.length;
