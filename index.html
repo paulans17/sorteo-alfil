@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sorteo Alfil Juvenil × Black Sunrise</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--gold:#C9A24D;--gold2:#e6c878;--bg:#0b0b0b;--card:#141414;--line:#2a2418;--txt:#f3efe6;--mut:#9a927f;--ok:#7fb069;--no:#c0614d}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font-family:Outfit,system-ui,sans-serif;min-height:100vh}
+  .wrap{max-width:820px;margin:0 auto;padding:28px 18px 60px}
+  header{text-align:center;margin-bottom:22px}
+  .aj{font-family:Cinzel,serif;color:var(--gold);letter-spacing:.35em;font-size:13px}
+  h1{font-family:Cinzel,serif;font-weight:700;font-size:clamp(26px,5vw,40px);margin:8px 0 4px;color:var(--txt)}
+  h1 span{color:var(--gold)}
+  .sub{color:var(--mut);font-size:15px}
+  .frame{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:20px;margin:16px 0;position:relative}
+  .frame::before{content:"";position:absolute;inset:5px;border:1px solid rgba(201,162,77,.18);border-radius:10px;pointer-events:none}
+  h2{font-family:Cinzel,serif;font-size:16px;color:var(--gold);margin:0 0 10px;letter-spacing:.06em}
+  p.help{color:var(--mut);font-size:14px;margin:6px 0 12px;line-height:1.5}
+  ol.help{color:var(--mut);font-size:14px;line-height:1.6;padding-left:20px;margin:6px 0 12px}
+  code{background:#1e1b14;color:var(--gold2);padding:1px 6px;border-radius:4px;font-size:13px}
+  textarea{width:100%;min-height:90px;background:#0e0e0e;color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:10px;font-family:ui-monospace,monospace;font-size:12px;resize:vertical}
+  button{font-family:Outfit,sans-serif;cursor:pointer;border-radius:999px;border:1px solid var(--gold);background:transparent;color:var(--gold);padding:9px 18px;font-size:14px;font-weight:600;transition:.15s}
+  button:hover{background:rgba(201,162,77,.12)}
+  button:disabled{opacity:.35;cursor:not-allowed}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}
+  .stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+  .stat{flex:1;min-width:120px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;text-align:center}
+  .stat b{display:block;font-size:24px;color:var(--gold2);font-weight:600}
+  .stat small{color:var(--mut);font-size:12px}
+  .msg{font-size:14px;margin-top:8px;min-height:18px}
+  .msg.err{color:var(--no)} .msg.ok{color:var(--ok)}
+  .stage{text-align:center;padding:30px 10px 10px}
+  .big{font-family:Cinzel,serif;font-size:20px;letter-spacing:.08em;padding:18px 44px;background:linear-gradient(135deg,#b88f3c,var(--gold2));color:#111;border:none;box-shadow:0 0 30px rgba(201,162,77,.25)}
+  .big:hover{filter:brightness(1.08);background:linear-gradient(135deg,#b88f3c,var(--gold2))}
+  .reel{font-family:Outfit,sans-serif;font-weight:600;font-size:clamp(28px,7vw,52px);color:var(--gold2);min-height:70px;margin:26px 0 6px;word-break:break-all}
+  .reel.spin{opacity:.75;filter:blur(.4px)}
+  .reel.win{animation:pop .5s ease;text-shadow:0 0 24px rgba(230,200,120,.45)}
+  @keyframes pop{0%{transform:scale(.8);opacity:0}70%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
+  .ctext{color:var(--txt);font-size:16px;margin:4px 0 2px;word-break:break-word}
+  .cmeta{color:var(--mut);font-size:13px}
+  .prize{display:inline-block;margin-top:6px;color:var(--gold);border:1px solid var(--line);border-radius:999px;padding:3px 12px;font-size:13px}
+  .ok{border-color:var(--ok);color:var(--ok)} .ok:hover{background:rgba(127,176,105,.12)}
+  .no{border-color:var(--no);color:var(--no)} .no:hover{background:rgba(192,97,77,.12)}
+  ul.list{list-style:none;padding:0;margin:0}
+  ul.list li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}
+  ul.list li:last-child{border-bottom:none}
+  ul.list .x{padding:3px 10px;font-size:12px;border-color:var(--mut);color:var(--mut)}
+  .medal{color:var(--gold2);font-family:Cinzel,serif;margin-right:8px}
+  .empty{color:var(--mut);font-size:14px}
+  details summary{cursor:pointer;color:var(--gold);font-family:Cinzel,serif;font-size:15px}
+  .hidden{display:none}
+  .confirm{margin-top:10px;font-size:14px;color:var(--mut)}
+  #proj{position:fixed;inset:0;background:radial-gradient(ellipse at center,#17130b 0%,#000 75%);display:flex;flex-direction:column;overflow:auto}
+  #proj.hidden{display:none}
+  .ptop{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;opacity:.35;transition:.2s}
+  .ptop:hover{opacity:1}
+  .back{color:var(--mut);text-decoration:none;font-size:14px}
+  .pframe{flex:1;margin:0 3vw 3vh;border:2px solid var(--gold);border-radius:18px;outline:1px solid rgba(201,162,77,.35);outline-offset:-12px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4vh 4vw}
+  .ptitle{font-family:Cinzel,serif;font-weight:700;font-size:clamp(34px,6vw,84px);margin:1vh 0}
+  .ptitle span{color:var(--gold)}
+  .pprize{font-family:Cinzel,serif;color:var(--gold);border:1px solid var(--gold);border-radius:999px;padding:6px 22px;font-size:clamp(16px,2vw,28px);margin-bottom:2vh}
+  .preel{font-size:clamp(40px,8vw,120px);min-height:1.3em;margin:2vh 0 1vh}
+  .pcomment{font-size:clamp(24px,3.6vw,56px);font-weight:300;line-height:1.25;max-width:85vw;word-break:break-word;margin:1vh auto;animation:pop .6s ease}
+  .pmeta{font-size:clamp(14px,1.4vw,20px);margin-bottom:2vh}
+  .pbtns{margin-top:2vh;min-height:80px}
+  .pbtns .big{font-size:clamp(18px,2vw,28px);padding:2vh 4vw}
+  .pbtn{font-size:clamp(16px,1.6vw,22px);padding:12px 28px}
+  .pwin{display:flex;gap:2vw;flex-wrap:wrap;justify-content:center;margin-top:4vh}
+  .pwin .w{border:1px solid var(--line);border-radius:12px;padding:10px 22px;background:rgba(0,0,0,.4)}
+  .pwin .w b{display:block;font-family:Outfit,sans-serif;font-weight:600;color:var(--gold2);font-size:clamp(18px,2vw,28px)}
+  .pwin .w small{color:var(--mut);font-size:clamp(12px,1.1vw,16px)}
+</style>
+</head>
+<body>
+<div id="proj" class="hidden">
+  <div class="ptop">
+    <a href="#" class="back">← Ajustes</a>
+    <button class="x" id="fs">Pantalla completa</button>
+  </div>
+  <div class="pframe">
+    <div class="aj">ALFIL · JUVENIL &nbsp;×&nbsp; BLACK SUNRISE</div>
+    <div class="ptitle">Gran <span>Sorteo</span></div>
+    <div class="pprize" id="pPrize"></div>
+    <div class="reel preel" id="reel">—</div>
+    <div id="result" class="hidden">
+      <div class="pcomment" id="rText"></div>
+      <div class="cmeta pmeta" id="rMeta"></div>
+    </div>
+    <div class="pbtns">
+      <button class="big" id="draw" disabled>Sacar comentario</button>
+      <div id="decide" class="row hidden" style="justify-content:center">
+        <button class="ok pbtn" id="accept">✓ ¡Ganador!</button>
+        <button class="no pbtn" id="reject">✗ No cumple · otro</button>
+      </div>
+    </div>
+    <div class="pwin" id="pWinners"></div>
+  </div>
+</div>
+
+<div class="wrap" id="setup">
+  <header>
+    <div class="aj">ALFIL · JUVENIL</div>
+    <h1>Gran <span>Sorteo</span></h1>
+    <div class="sub">× Black Sunrise · 1 tatuaje de 100 € y 2 de 50 €</div>
+  </header>
+
+  <div class="frame" id="step1">
+    <details id="det1" open>
+      <summary>1 · Sacar los comentarios de Instagram</summary>
+      <ol class="help">
+        <li>En el <b>ordenador</b>, abre la publicación en Instagram con tu sesión iniciada.</li>
+        <li>Abre la consola: <code>Cmd + Opción + J</code> (Mac, Chrome) o <code>F12</code> → pestaña <b>Console</b>.</li>
+        <li>Si es la primera vez, Chrome te pide escribir <code>allow pasting</code> y darle a Enter.</li>
+        <li>Pega el script, dale a Enter y espera a que diga <b>✅ Listo</b>. Los comentarios se copian solos.</li>
+      </ol>
+      <div class="row"><button id="copyScript">Copiar script</button><span class="msg" id="copyMsg"></span></div>
+      <textarea id="scriptBox" readonly style="margin-top:10px;min-height:70px"></textarea>
+    </details>
+  </div>
+
+  <div class="frame">
+    <h2>2 · Pegar los comentarios</h2>
+    <p class="help">Pega aquí lo que ha copiado el script. Si lo vuelves a sacar otro día, pega lo nuevo y se sustituye: los ganadores y descartados se mantienen.</p>
+    <textarea id="data" placeholder='[{"u":"usuario","t":"@amigo","ts":1731300000}, ...]'></textarea>
+    <div class="row"><button id="load">Cargar comentarios</button><span class="msg" id="loadMsg"></span></div>
+    <div class="stats">
+      <div class="stat"><b id="sTotal">0</b><small>comentarios</small></div>
+      <div class="stat"><b id="sValid">0</b><small>papeletas válidas</small></div>
+      <div class="stat"><b id="sPeople">0</b><small>participantes</small></div>
+      <div class="stat"><b id="sPool">0</b><small>en el bombo ahora</small></div>
+    </div>
+  </div>
+
+  <div class="frame">
+    <h2>3 · ¡A sortear!</h2>
+    <p class="help">Abre la pantalla de proyección, ponla en pantalla completa y conecta el proyector. El sorteo se hace desde ahí.</p>
+    <div class="row"><a href="#proyectar"><button class="big" style="font-size:16px;padding:14px 32px">Abrir pantalla de proyección</button></a></div>
+  </div>
+
+  <div class="frame">
+    <h2>🏆 Ganadores</h2>
+    <ul class="list" id="winners"></ul>
+  </div>
+
+  <div class="frame">
+    <details>
+      <summary>Descartados y ajustes</summary>
+      <p class="help">Los descartados no vuelven a salir. Si te equivocas, quítalo de aquí.</p>
+      <ul class="list" id="rejected"></ul>
+      <p class="help" style="margin-top:14px">Cuentas excluidas (separadas por comas):</p>
+      <textarea id="excl" style="min-height:40px">alfiljuvenil, blacksunrisestudio</textarea>
+      <div class="row">
+        <button id="saveExcl">Guardar exclusiones</button>
+        <button class="no" id="resetAll">Empezar de cero</button>
+      </div>
+      <div class="confirm hidden" id="resetConfirm">¿Seguro? Se borran ganadores, descartados y comentarios.
+        <button class="no" id="resetYes">Sí, borrar</button> <button id="resetNo">No</button></div>
+    </details>
+  </div>
+
+  <p class="help" style="text-align:center">Cada comentario que mencione al menos a una persona es una papeleta. Cada persona solo puede ganar un premio. Elección aleatoria con <code>crypto.getRandomValues</code>.</p>
+</div>
+
+<script>
+const SCRIPT = `(async () => {
+  const seg = location.pathname.split('/').filter(Boolean);
+  const i = seg.findIndex(s => s === 'p' || s === 'reel');
+  if (i < 0) return console.error('❌ Abre primero la publicación de Instagram (URL con /p/...)');
+  const code = seg[i + 1];
+  const A = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+  let id = 0n; for (const c of code) id = id * 64n + BigInt(A.indexOf(c));
+  const H = { 'X-IG-App-ID': '936619743392459', 'X-Requested-With': 'XMLHttpRequest' };
+  const out = [], seen = new Set(); let min = null, n = 0;
+  do {
+    const url = '/api/v1/media/' + id + '/comments/?can_support_threading=true&permalink_enabled=false' + (min ? '&min_id=' + encodeURIComponent(min) : '');
+    let j;
+    try { const r = await fetch(url, { headers: H, credentials: 'include' }); j = await r.json(); }
+    catch (e) { return console.error('❌ Instagram no ha devuelto los comentarios. ¿Tienes la sesión iniciada? Espera un minuto y prueba otra vez.'); }
+    for (const c of (j.comments || [])) if (!seen.has(c.pk)) { seen.add(c.pk); out.push({ u: c.user.username, t: c.text, ts: c.created_at }); }
+    min = j.next_min_id; n++;
+    console.log('⏳ ' + out.length + ' comentarios…');
+    await new Promise(r => setTimeout(r, 700 + Math.random() * 600));
+  } while (min && n < 300);
+  const json = JSON.stringify(out);
+  window.__comentarios = json;
+  try { copy(json); console.log('✅ Listo: ' + out.length + ' comentarios copiados. Pégalos en la web del sorteo.'); }
+  catch (e) {
+    const ta = document.createElement('textarea'); ta.value = json;
+    ta.style.cssText = 'position:fixed;inset:20px;z-index:99999;width:calc(100% - 40px);height:60%';
+    document.body.appendChild(ta); ta.select();
+    console.log('✅ Listo: ' + out.length + ' comentarios. Cópialos del cuadro que ha salido (Cmd+C).');
+  }
+})();`;
+
+const $ = id => document.getElementById(id);
+$('scriptBox').value = SCRIPT;
+
+const store = {
+  get(k, d){ try { const v = localStorage.getItem('sorteoAJ_' + k); return v ? JSON.parse(v) : d; } catch(e){ return d; } },
+  set(k, v){ try { localStorage.setItem('sorteoAJ_' + k, JSON.stringify(v)); } catch(e){} }
+};
+
+let comments = store.get('comments', []);
+let winners  = store.get('winners', []);   // {u,t,ts,prize}
+let rejected = store.get('rejected', []);  // usernames
+let excluded = store.get('excluded', ['alfiljuvenil','blacksunrisestudio']);
+let current = null, spinning = false;
+
+const PRIZES = ['Tatuaje de 100 €', 'Tatuaje de 50 €', 'Tatuaje de 50 €'];
+const norm = s => String(s || '').trim().replace(/^@/, '').toLowerCase();
+
+function isValid(c){
+  const u = norm(c.u);
+  if (!u || excluded.includes(u)) return false;
+  const ments = (String(c.t).match(/@([A-Za-z0-9._]+)/g) || []).map(norm);
+  return ments.some(m => m !== u && !excluded.includes(m));
+}
+function pool(){
+  const out = new Set([...winners.map(w => norm(w.u)), ...rejected.map(norm)]);
+  return comments.filter(c => isValid(c) && !out.has(norm(c.u)));
+}
+function rand(n){ const a = new Uint32Array(1); const lim = Math.floor(0x100000000 / n) * n; let x; do { crypto.getRandomValues(a); x = a[0]; } while (x >= lim); return x % n; }
+function fmt(ts){ if (!ts) return ''; const d = new Date(ts * 1000); return d.toLocaleString('es-ES', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' }); }
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+function render(){
+  const valid = comments.filter(isValid);
+  $('sTotal').textContent = comments.length;
+  $('sValid').textContent = valid.length;
+  $('sPeople').textContent = new Set(valid.map(c => norm(c.u))).size;
+  const p = pool();
+  $('sPool').textContent = p.length;
+  const done = winners.length >= PRIZES.length;
+  $('draw').disabled = spinning || !p.length || done || !!current;
+  $('draw').textContent = done ? 'Premios repartidos 🎉' : 'Sacar comentario';
+  $('winners').innerHTML = winners.length ? winners.map((w, i) =>
+    `<li><span><span class="medal">${i+1}º</span>@${esc(w.u)} · <span style="color:var(--mut)">${esc(w.prize)}</span></span><button class="x" data-w="${i}">quitar</button></li>`).join('')
+    : '<li class="empty">Todavía no hay ganadores.</li>';
+  $('rejected').innerHTML = rejected.length ? rejected.map((u, i) =>
+    `<li><span>@${esc(u)}</span><button class="x" data-r="${i}">quitar</button></li>`).join('')
+    : '<li class="empty">Nadie descartado.</li>';
+  $('excl').value = excluded.join(', ');
+  $('pPrize').textContent = done ? '¡Enhorabuena a los ganadores!' : (winners.length + 1) + 'º premio · ' + PRIZES[winners.length];
+  $('pWinners').innerHTML = winners.map((w, i) => `<div class="w"><b>@${esc(w.u)}</b><small>${i+1}º · ${esc(w.prize)}</small></div>`).join('');
+  $('draw').classList.toggle('hidden', !!current);
+  $('decide').classList.toggle('hidden', !current);
+  if (!comments.length && !current) $('reel').textContent = 'Carga los comentarios en Ajustes';
+}
+
+function route(){
+  const p = location.hash === '#proyectar';
+  $('proj').classList.toggle('hidden', !p);
+  $('setup').classList.toggle('hidden', p);
+  render();
+}
+window.addEventListener('hashchange', route);
+$('fs').onclick = async () => {
+  try { if (document.fullscreenElement) await document.exitFullscreen(); else await document.documentElement.requestFullscreen(); }
+  catch(e){ $('fs').textContent = 'Usa Ctrl+Cmd+F / F11'; }
+};
+window.addEventListener('storage', () => {
+  comments = store.get('comments', []); winners = store.get('winners', []);
+  rejected = store.get('rejected', []); excluded = store.get('excluded', excluded); render();
+});
+
+$('copyScript').onclick = async () => {
+  try { await navigator.clipboard.writeText(SCRIPT); $('copyMsg').textContent = 'Copiado ✓'; $('copyMsg').className = 'msg ok'; }
+  catch(e){ $('scriptBox').select(); $('copyMsg').textContent = 'Selecciónalo del cuadro y Cmd+C'; $('copyMsg').className = 'msg'; }
+};
+
+$('load').onclick = () => {
+  const raw = $('data').value.trim(); const m = $('loadMsg');
+  if (!raw) { m.textContent = 'Pega primero los comentarios.'; m.className = 'msg err'; return; }
+  let arr;
+  try { arr = JSON.parse(raw); if (!Array.isArray(arr)) throw 0; }
+  catch(e){
+    // Alternativa: una línea por comentario "usuario: texto"
+    arr = raw.split(/\n+/).map(l => { const k = l.indexOf(':'); return k > 0 ? { u: l.slice(0, k).trim(), t: l.slice(k + 1).trim() } : null; }).filter(Boolean);
+  }
+  arr = arr.filter(c => c && c.u);
+  if (!arr.length) { m.textContent = 'No he entendido el formato. Usa lo que copia el script.'; m.className = 'msg err'; return; }
+  comments = arr; store.set('comments', comments);
+  m.textContent = `Cargados ${arr.length} comentarios ✓`; m.className = 'msg ok';
+  $('data').value = ''; $('det1').open = false;
+  render();
+};
+
+$('draw').onclick = () => {
+  const p = pool(); if (!p.length) return;
+  spinning = true; current = null; $('result').classList.add('hidden');
+  const reel = $('reel'); reel.className = 'reel spin';
+  const pick = p[rand(p.length)];
+  let delay = 40, t = 0;
+  const tick = () => {
+    reel.textContent = '@' + p[rand(p.length)].u;
+    t += delay; delay *= 1.08;
+    if (t < 3200) setTimeout(tick, delay);
+    else {
+      reel.textContent = '@' + pick.u; reel.className = 'reel win';
+      current = pick; spinning = false;
+      $('rText').textContent = '“' + pick.t + '”';
+      $('rMeta').textContent = fmt(pick.ts);
+      $('result').classList.remove('hidden');
+      render();
+    }
+  };
+  render(); tick();
+};
+
+$('accept').onclick = () => {
+  if (!current) return;
+  winners.push({ ...current, prize: PRIZES[winners.length] }); store.set('winners', winners);
+  current = null; render();
+};
+$('reject').onclick = () => {
+  if (!current) return;
+  rejected.push(current.u); store.set('rejected', rejected);
+  current = null; $('result').classList.add('hidden'); $('reel').textContent = '—'; $('reel').className = 'reel';
+  render(); $('draw').click();
+};
+
+document.addEventListener('click', e => {
+  const w = e.target.dataset.w, r = e.target.dataset.r;
+  if (w !== undefined) { winners.splice(+w, 1); winners.forEach((x, i) => x.prize = PRIZES[i]); store.set('winners', winners); render(); }
+  if (r !== undefined) { rejected.splice(+r, 1); store.set('rejected', rejected); render(); }
+});
+
+$('saveExcl').onclick = () => { excluded = $('excl').value.split(',').map(norm).filter(Boolean); store.set('excluded', excluded); render(); };
+$('resetAll').onclick = () => $('resetConfirm').classList.remove('hidden');
+$('resetNo').onclick = () => $('resetConfirm').classList.add('hidden');
+$('resetYes').onclick = () => {
+  comments = []; winners = []; rejected = []; current = null;
+  ['comments','winners','rejected'].forEach(k => store.set(k, k === 'comments' ? [] : []));
+  $('resetConfirm').classList.add('hidden'); $('result').classList.add('hidden'); $('reel').textContent = '—'; render();
+};
+
+if (comments.length) $('det1').open = false;
+route();
+</script>
+</body>
+</html>
