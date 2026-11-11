@@ -219,29 +219,54 @@ const SCRIPT = `(async () => {
   const seg = location.pathname.split('/').filter(Boolean);
   const i = seg.findIndex(s => s === 'p' || s === 'reel');
   if (i < 0) return console.error('❌ Abre primero la publicación de Instagram (URL con /p/...)');
-  const code = seg[i + 1];
   const A = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
-  let id = 0n; for (const c of code) id = id * 64n + BigInt(A.indexOf(c));
+  let id = 0n; for (const c of seg[i + 1]) id = id * 64n + BigInt(A.indexOf(c));
   const H = { 'X-IG-App-ID': '936619743392459', 'X-Requested-With': 'XMLHttpRequest' };
-  const out = [], seen = new Set(); let min = null, n = 0;
-  do {
-    const url = '/api/v1/media/' + id + '/comments/?can_support_threading=true&permalink_enabled=false' + (min ? '&min_id=' + encodeURIComponent(min) : '');
-    let j;
-    try { const r = await fetch(url, { headers: H, credentials: 'include' }); j = await r.json(); }
-    catch (e) { return console.error('❌ Instagram no ha devuelto los comentarios. ¿Tienes la sesión iniciada? Espera un minuto y prueba otra vez.'); }
-    for (const c of (j.comments || [])) if (!seen.has(c.pk)) { seen.add(c.pk); out.push({ u: c.user.username, t: c.text, ts: c.created_at }); }
-    min = j.next_min_id; n++;
-    console.log('⏳ ' + out.length + ' comentarios…');
-    await new Promise(r => setTimeout(r, 700 + Math.random() * 600));
-  } while (min && n < 300);
-  const json = JSON.stringify(out);
+  const wait = () => new Promise(r => setTimeout(r, 600 + Math.random() * 600));
+  const get = async url => { const r = await fetch(url, { headers: H, credentials: 'include' }); return r.json(); };
+  const out = new Map(); let total = null;
+  const add = (c, reply) => { if (c && !out.has(c.pk)) out.set(c.pk, { u: c.user.username, t: c.text, ts: c.created_at, r: reply ? 1 : 0 }); };
+  const parents = new Map();
+  const base = '/api/v1/media/' + id + '/comments/?can_support_threading=true&permalink_enabled=false';
+  try {
+    // 1) Comentarios principales, en las dos direcciones
+    for (const dir of ['min_id', 'max_id']) {
+      let cur = null, n = 0;
+      do {
+        const j = await get(base + (cur ? '&' + dir + '=' + encodeURIComponent(cur) : ''));
+        if (total === null && j.comment_count) total = j.comment_count;
+        for (const c of (j.comments || [])) {
+          add(c, false); parents.set(c.pk, c);
+          for (const r of (c.preview_child_comments || [])) add(r, true);
+        }
+        cur = dir === 'min_id' ? (j.has_more_headload_comments !== false ? j.next_min_id : null) : (j.has_more_comments ? j.next_max_id : null);
+        console.log('⏳ ' + out.size + ' comentarios…'); n++; await wait();
+      } while (cur && n < 300);
+    }
+    // 2) Respuestas dentro de cada comentario
+    for (const [pk, c] of parents) {
+      if (!c.child_comment_count) continue;
+      for (const [dir, more, next] of [['max_id', 'has_more_tail_child_comments', 'next_max_child_cursor'], ['min_id', 'has_more_head_child_comments', 'next_min_child_cursor']]) {
+        let cur = null, n = 0;
+        do {
+          const j = await get('/api/v1/media/' + id + '/comments/' + pk + '/child_comments/' + (cur ? '?' + dir + '=' + encodeURIComponent(cur) : ''));
+          for (const r of (j.child_comments || [])) add(r, true);
+          cur = j[more] ? j[next] : null; n++; await wait();
+        } while (cur && n < 50);
+      }
+      console.log('↳ respuestas de @' + c.user.username + ' · ' + out.size + ' en total');
+    }
+  } catch (e) { console.error('❌ Instagram ha cortado la descarga (' + e.message + '). Espera un minuto y vuelve a pegar el script.'); if (!out.size) return; }
+  const arr = [...out.values()];
+  const json = JSON.stringify(arr);
   window.__comentarios = json;
-  try { copy(json); console.log('✅ Listo: ' + out.length + ' comentarios copiados. Pégalos en la web del sorteo.'); }
+  const resumen = arr.length + ' comentarios (' + arr.filter(x => x.r).length + ' son respuestas)' + (total ? ' de ' + total + ' que dice Instagram' : '');
+  try { copy(json); console.log('✅ Listo: ' + resumen + '. Copiados: pégalos en la web del sorteo.'); }
   catch (e) {
     const ta = document.createElement('textarea'); ta.value = json;
     ta.style.cssText = 'position:fixed;inset:20px;z-index:99999;width:calc(100% - 40px);height:60%';
     document.body.appendChild(ta); ta.select();
-    console.log('✅ Listo: ' + out.length + ' comentarios. Cópialos del cuadro que ha salido (Cmd+C).');
+    console.log('✅ Listo: ' + resumen + '. Cópialos del cuadro que ha salido (Cmd+C).');
   }
 })();`;
 
