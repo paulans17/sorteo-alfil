@@ -178,6 +178,7 @@
     <div class="row"><button id="load">Cargar comentarios</button><span class="msg" id="loadMsg"></span></div>
     <div class="stats">
       <div class="stat"><b id="sTotal">0</b><small>comentarios</small></div>
+      <div class="stat"><b id="sReplies">0</b><small>respuestas (no cuentan)</small></div>
       <div class="stat"><b id="sValid">0</b><small>papeletas válidas</small></div>
       <div class="stat"><b id="sPeople">0</b><small>participantes</small></div>
       <div class="stat"><b id="sPool">0</b><small>en el bombo</small></div>
@@ -211,7 +212,7 @@
     </details>
   </div>
 
-  <p class="foot">Cada comentario que mencione al menos a una persona es una papeleta. Cada persona solo puede ganar un premio. Elección aleatoria con <code>crypto.getRandomValues</code>.</p>
+  <p class="foot">Cada comentario que mencione al menos a una persona es una papeleta (las respuestas a otros comentarios no cuentan). Cada persona solo puede ganar un premio. Elección aleatoria con <code>crypto.getRandomValues</code>.</p>
 </div>
 
 <script>
@@ -289,7 +290,7 @@ const norm = s => String(s || '').trim().replace(/^@/, '').toLowerCase();
 
 function isValid(c){
   const u = norm(c.u);
-  if (!u || excluded.includes(u)) return false;
+  if (!u || excluded.includes(u) || c.r) return false;
   const ments = (String(c.t).match(/@([A-Za-z0-9._]+)/g) || []).map(norm);
   return ments.some(m => m !== u && !excluded.includes(m));
 }
@@ -303,7 +304,8 @@ function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt
 
 function render(){
   const valid = comments.filter(isValid);
-  $('sTotal').textContent = comments.length;
+  $('sTotal').textContent = comments.filter(c => !c.r).length;
+  $('sReplies').textContent = comments.filter(c => c.r).length;
   $('sValid').textContent = valid.length;
   $('sPeople').textContent = new Set(valid.map(c => norm(c.u))).size;
   const p = pool();
